@@ -13,9 +13,20 @@ CREATE TABLE proveedores(
                         fax INT,
                         cif INT NOT NULL
                         );
+
+CREATE TABLE marca(
+					id_marca INT NOT NULL PRIMARY KEY,
+                    id_proveedor INT NOT NULL,
+                    marca VARCHAR (40),
+                    FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
+                    );
+                    
+
 CREATE TABLE gafas(
 						id_gafas INT PRIMARY KEY NOT NULL,
+                        id_marca INT NOT NULL,
                         marca VARCHAR (40) NOT NULL,
+                        id_proveedor INT NOT NULL,
                         graduacion_izq DEC (2,2) NOT NULL,
                         graduacion_der DEC (2,2) NOT NULL,
                         tipo_motura VARCHAR (40) NOT NULL,
@@ -23,8 +34,8 @@ CREATE TABLE gafas(
                         color_vidrio_izq VARCHAR (40) NOT NULL,
                         color_vidrio_der VARCHAR (40) NOT NULL,
                         precio DEC (4,2) NOT NULL,
-                        id_proveedor INT NOT NULL,
-                        FOREIGN KEY (id_proveedor) REFERENCES proveedores(id_proveedor)
+                        FOREIGN KEY (id_marca) REFERENCES marca(id_marca)
+                        
                         );
 CREATE TABLE clientes(
 						id_cliente INT PRIMARY KEY NOT NULL,
@@ -44,6 +55,8 @@ CREATE TABLE ventas(
                         id_gafas INT NOT NULL,
                         id_empleado INT NOT NULL,
                         id_cliente INT NOT NULL,
+                        fecha DATE NOT NULL,
+                        importe_venta DECIMAL(4,2) NOT NULL,
                         FOREIGN KEY (id_gafas) REFERENCES gafas(id_gafas),
                         FOREIGN KEY (id_empleado) REFERENCES empleados(id_empleado),
                         FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
